@@ -16,6 +16,7 @@ from PySide6.QtWidgets import QApplication, QDialog, QFileDialog
 from ui_feedback import Ui_Dialog as Ui_FeedbackDialog
 from ui_feedbacksaved import Ui_Dialog as Ui_FeedbackSavedDialog
 import time
+import webbrowser
 
 
 class MainApp(QtWidgets.QDialog, Ui_Dialog):
@@ -173,6 +174,9 @@ class MainApp(QtWidgets.QDialog, Ui_Dialog):
             printer.setOutputFileName(pdf_path)
             self.textEdit_2.document().print_(printer)
             print("Document saved as PDF to", pdf_path)
+
+            # Open the saved PDF file
+            webbrowser.open(pdf_path)
 
     def import_annotations_to_textEdit(self):
         file_path = os.path.join(os.path.dirname(__file__), 'annotations.txt')
