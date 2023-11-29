@@ -76,8 +76,8 @@ class MainApp(QtWidgets.QDialog, Ui_Dialog):
         self.pushButton_2.clicked.connect(self.save_text)
         # Connect buttons to their respective methods
         self.pushButton_3.clicked.connect(self.import_annotations_to_textEdit)
-        self.pushButton.clicked.connect(self.save_as_pdf)       # Save as PDF
-        self.pushButton_4.clicked.connect(self.add_image)       # Add Image
+        self.pushButton.clicked.connect(self.save_as_pdf)  # Save as PDF
+        self.pushButton_4.clicked.connect(self.add_image)  # Add Image
         # Connect the feedback button to the method to open the feedback dialog
         self.feedback_button.clicked.connect(self.show_feedback_dialog)
         self.save_text()
@@ -166,12 +166,12 @@ class MainApp(QtWidgets.QDialog, Ui_Dialog):
 
     def save_as_pdf(self):
         # Open a file dialog to specify the PDF file path
-        pdf_path, = QFileDialog.getSaveFileName(self, "Save as PDF", "", "PDF files (*.pdf)")
+        pdf_path, _ = QFileDialog.getSaveFileName(self, "Save as PDF", "", "PDF files (*.pdf)")
         if pdf_path:
             printer = QPrinter(QPrinter.HighResolution)
             printer.setOutputFormat(QPrinter.PdfFormat)
             printer.setOutputFileName(pdf_path)
-            self.textEdit2.document().print(printer)
+            self.textEdit_2.document().print_(printer)
             print("Document saved as PDF to", pdf_path)
 
     def import_annotations_to_textEdit(self):
@@ -203,7 +203,7 @@ class MainApp(QtWidgets.QDialog, Ui_Dialog):
         with open(file_path, 'w', encoding='utf-8') as file:
             for checkbox, text in self.checkboxTexts.items():
                 file.write(f"{checkbox.objectName()}: {text}\n\n")
-            
+
     def show_feedback_dialog(self):
         dialog = FeedbackDialog(self)
         dialog.exec()  # Changed from exec_() to exec()
@@ -255,6 +255,7 @@ class FeedbackDialog(QtWidgets.QDialog, Ui_FeedbackDialog):
         # Connect the Submit and Cancel buttons to their respective slots
         self.Submitfeedback.clicked.connect(self.submit_feedback)
         self.cancelfeedback.clicked.connect(self.close)
+
     def submit_feedback(self):
         # Implement the logic for submitting feedback
         # For example, fetch text from self.textEdit and self.textEdit_2
